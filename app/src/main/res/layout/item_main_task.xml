@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp">
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_task_button_bg"/>
+
+    <TextView
+        android:id="@+id/tv_task_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/tv_status"
+        android:gravity="center"
+        android:textColor="@color/text_color2"
+        android:textSize="@dimen/text_16_sp"
+        android:drawablePadding="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_cont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/text_color2"
+        android:textSize="@dimen/text_16_sp" />
+
+    <TextView
+        android:id="@+id/tv_jiangli"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_task_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="40dp"
+        android:gravity="center"
+        android:textColor="@color/text_color2"
+        android:textSize="@dimen/text_16_sp"
+        android:drawableStart="@mipmap/jiang"
+        android:visibility="gone"/>
+    
+    <View
+        android:id="@+id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D8D8D8"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/tv_jiangli"
+        android:layout_alignStart="@+id/tv_jiangli"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/l2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D8D8D8"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/tv_jiangli"
+        android:layout_alignStart="@+id/tv_task_content"
+        android:visibility="gone"/>
+</RelativeLayout>

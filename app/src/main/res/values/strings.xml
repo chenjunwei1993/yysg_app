@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">丫丫超人养成</string>
+
+    <string name="Network_Connection_timeout">网络连接超时</string>
+    <string name="no_network">网络中断，请检查您的网络状态</string>
+    <string name="loading_tip">加载中…</string>
+
+    <!-- HttpCodeException -->
+    <string name="http_code_default">未知错误%1$d</string>
+    <string name="http_code_401">登录失效</string>
+    <string name="http_code_404">资源不存在</string>
+    <string name="http_code_500">服务器错误</string>
+    <string name="http_code_503">服务当前无法处理请求</string>
+</resources>

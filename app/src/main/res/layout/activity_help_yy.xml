@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/srl_fresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    tools:context=".activity.MainActivity">
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="UselessParent">
+
+            <com.dyibing.myapp.view.CircleImageView
+                android:id="@+id/nice_iv0"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@mipmap/default_head"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#05C2BE"
+                android:layout_marginLeft="20dp" />
+
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/nice_iv0"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/nice_iv0"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_16_sp" />
+
+            <TextView
+                android:id="@+id/tv_zan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/nice_iv0"
+                android:layout_toEndOf="@+id/nice_iv0"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_16_sp"
+                android:drawableStart="@mipmap/zan"
+                android:drawablePadding="10dp"
+                />
+
+<!--            <ImageView-->
+<!--                android:id="@+id/iv_back"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:src="@mipmap/back"/>-->
+
+            <TextView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_button3_bg"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_centerVertical="true"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="20dp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_16_sp"
+                android:text="返回"
+                android:drawableLeft="@drawable/ic_keyboard_arrow_left_black_24dp"/>
+
+            <TextView
+                android:id="@+id/tv_aixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/nice_iv0"
+                android:layout_toEndOf="@+id/tv_zan"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_16_sp"
+                android:drawableStart="@mipmap/aixin"
+                android:drawablePadding="10dp"
+                />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="20dp"
+            android:background="#C9695B"
+            android:layout_marginStart="20dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_pro_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/shape_xm_mc_bg"
+                android:layout_marginStart="30dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_pro_name"
+                android:layout_toEndOf="@+id/tv_pro_name"
+                android:src="@mipmap/shu"
+                 />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingBottom="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:background="@drawable/shape_project_bg"
+            android:layout_marginEnd="20dp">
+            <TextView
+                android:id="@+id/tv_donated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_16_sp"
+                android:text="我已捐赠："
+                android:drawableEnd="@mipmap/aixin"
+                android:drawablePadding="5dp"/>
+
+            <Button
+                android:id="@+id/tv_donation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/selector_donation_bg"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_16_sp"
+                android:text="捐一个"
+                android:drawableEnd="@mipmap/fhaixin"/>
+
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_donated"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_16_sp"
+                android:text="进度："
+                android:drawableEnd="@mipmap/aixin"
+                android:drawablePadding="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_gyaxb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_progress"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                android:text="公益爱心榜"
+                android:drawableStart="@mipmap/sutao"
+                android:drawablePadding="10dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_zhint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_zan_hint_bg"
+                android:layout_below="@+id/tv_gyaxb"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:padding="10dp"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_16_sp"
+                android:text="快给爱心大使们点赞吧！点赞同时自己也能获赞哦"
+                android:drawableStart="@mipmap/xiaolaba"
+                android:drawablePadding="5dp"
+                android:visibility="gone"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rlv_love_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_zhint"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:id="@+id/tv_pr_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlv_love_list"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                android:text="项目详情"
+                android:drawableStart="@mipmap/sutao"
+                android:drawablePadding="10dp"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/iv_weitu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_pr_detail"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:scaleType="fitXY"/>
+            <TextView
+                android:id="@+id/tv_pro_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_weitu"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="@dimen/text_16_sp"
+                android:visibility="gone"
+                />
+            <View
+                android:id="@+id/v_l"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_pro_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="#C9695B"
+                android:layout_marginStart="15dp" />
+            <TextView
+                android:id="@+id/tv_related_articles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v_l"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="@dimen/text_16_sp"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

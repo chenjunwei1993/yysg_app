@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="@drawable/shape_item_love_list_bg">
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/head"/>
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_head"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_16_sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_donation_yesterday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_user_name"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_16_sp"
+        android:text="昨日捐赠："/>
+    <TextView
+        android:id="@+id/tv_donation_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_donation_yesterday"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_16_sp"
+        android:text="合计捐赠："/>
+
+    <TextView
+        android:id="@+id/tv_zan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_donation_total"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape_donation_bg"
+        android:paddingTop="5dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_16_sp"
+        android:text="0"
+        android:drawableStart="@mipmap/zan2"
+        android:drawablePadding="5dp"/>
+
+</RelativeLayout>
