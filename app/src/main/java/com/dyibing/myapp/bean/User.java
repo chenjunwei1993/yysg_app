@@ -9,16 +9,6 @@ public class User extends LoginBean {
      * 协议头cookie
      */
     public String token = "";
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-
     /**
      * 是否登录
      */
@@ -182,6 +172,14 @@ public class User extends LoginBean {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
 

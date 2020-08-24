@@ -4,11 +4,13 @@ import android.app.Application;
 import android.content.Context;
 
 
+import androidx.multidex.MultiDexApplication;
+
 import com.blankj.utilcode.util.Utils;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
 
     private static Context context;
     public static int HttpStateCode = 0;

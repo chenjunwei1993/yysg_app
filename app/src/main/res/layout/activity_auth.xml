@@ -5,16 +5,24 @@
     android:orientation="vertical"
     android:gravity="center">
 
+    <TextView
+        android:textSize="14sp"
+        android:text="让爸爸妈妈微信扫码登录，创建任务，帮助 丫丫吧~~\n登录可以获取限时免费会员权益，同时获得10个森林币奖励哦"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"/>
+
     <ImageView
+        android:layout_marginTop="20dp"
         android:id="@+id/img_wx"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:scaleType="centerCrop" />
 
     <TextView
-        android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:text="微信扫码登录"
+        android:id="@+id/tv_refresh"
+        android:padding="10dp"
+        android:textSize="14sp"
+        android:text="点击刷新"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

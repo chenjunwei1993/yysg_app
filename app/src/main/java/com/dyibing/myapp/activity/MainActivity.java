@@ -241,9 +241,21 @@ public class MainActivity extends AppCompatActivity implements TasksView, UserIn
 
     @Override
     public void onUserInfo(UserInfoBean userInfoBean) {
-        if (userInfoBean == null)
+        if (userInfoBean == null){
             return;
+        }
+        DataCenter.getInstance().getUser().setNickname(userInfoBean.getNickName());
+        DataCenter.getInstance().getUser().setBirthday(userInfoBean.getBirthday());
+        DataCenter.getInstance().getUser().setUserSex(userInfoBean.getUserSex());
+        DataCenter.getInstance().getUser().setUserHobby(userInfoBean.getUserHobby());
+        DataCenter.getInstance().getUser().setLikeGift(userInfoBean.getLikeGift());
+        DataCenter.getInstance().getUser().setLikeCartoon(userInfoBean.getLikeCartoon());
+        DataCenter.getInstance().getUser().setLikeIdol(userInfoBean.getLikeIdol());
+        DataCenter.getInstance().getUser().setLikeGame(userInfoBean.getLikeGame());
+        DataCenter.getInstance().getUser().setAvatarUrl(userInfoBean.getAvatarUrl());
         DataCenter.getInstance().getUser().setForestCoinCount(userInfoBean.getForestCoinCount());
+        DataCenter.getInstance().getUser().setLikesCount(userInfoBean.getLikesCount());
+
         if (DataCenter.getInstance().getUser().getForestCoinCount_ls() != 0)
             tvAixin.setText(DataCenter.getInstance().getUser().getForestCoinCount() + "+" + DataCenter.getInstance().getUser().getForestCoinCount_ls());
         else

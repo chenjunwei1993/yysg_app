@@ -1,7 +1,6 @@
 package com.dyibing.myapp.mvp.service;
 
-import com.dyibing.myapp.bean.LoginBean;
-import com.dyibing.myapp.bean.UserInfoBean;
+import com.dyibing.myapp.bean.FinishStatusBean;
 import com.dyibing.myapp.net.HttpResult;
 
 import okhttp3.RequestBody;
@@ -11,25 +10,23 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import rx.Observable;
 
-public interface LoginService {
-
-
+public interface ForestCoinService {
     /**
-     * 登录
+     * 领取森林币
      *
      * @return
      */
     @Headers("Content-Type:application/json")
-    @POST("user/login")
-    Observable<HttpResult<LoginBean>> login(@Body RequestBody body);
+    @POST("childrenUser/receiveForestCoin")
+    Observable<HttpResult> receiveForestCoin(@Body RequestBody body);
+
 
     /**
-     * 获取用户信息
+     * 用户前一天的任务是否完成
      *
      * @return
      */
     @Headers("Content-Type:application/json")
-    @GET("childrenUser/getUserInfo")
-    Observable<HttpResult<UserInfoBean>> getUserInfo();
-
+    @GET("task/getUserFinishTaskStatus")
+    Observable<HttpResult<FinishStatusBean>> getUserFinishTaskStatus();
 }

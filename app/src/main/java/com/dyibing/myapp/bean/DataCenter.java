@@ -1,9 +1,8 @@
 package com.dyibing.myapp.bean;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.dyibing.myapp.MyApplication;
+import com.blankj.utilcode.util.SPUtils;
 import com.dyibing.myapp.common.Constant;
 
 import java.util.HashMap;
@@ -57,10 +56,10 @@ public class DataCenter {
 
 
     public String getToken() {
-        if (TextUtils.isEmpty(mUser.getToken())){
-            mUser.setToken(MyApplication.getContext().getSharedPreferences(Constant.PREFERENCES_DB, Context.MODE_PRIVATE).getString("token", ""));
+        if (TextUtils.isEmpty(mUser.getToken())) {
+            mUser.setToken(SPUtils.getInstance(Constant.PREFERENCES_DB).getString(Constant.TOKEN));
         }
-            return mUser.getToken();
+        return mUser.getToken();
     }
 
     public void setToken(String cookie) {
@@ -73,13 +72,9 @@ public class DataCenter {
 
     public String getUserId() {
         if (TextUtils.isEmpty(mUser.getUserId())) {
-            mUser.setUserId(MyApplication.getContext().getSharedPreferences(Constant.PREFERENCES_DB, Context.MODE_PRIVATE).getString("userid", ""));
+            mUser.setUserId(SPUtils.getInstance(Constant.PREFERENCES_DB).getString(Constant.USER_OPEN_ID));
         }
         return mUser.getUserId();
-    }
-
-    public boolean isLogin() {
-        return mUser.isLogin();
     }
 
 }

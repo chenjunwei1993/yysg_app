@@ -1,18 +1,21 @@
 package com.dyibing.myapp.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.dyibing.myapp.R;
 import com.dyibing.myapp.bean.DataCenter;
-import com.dyibing.myapp.bean.FinishStatusBean;
 import com.dyibing.myapp.bean.LoginBean;
 import com.dyibing.myapp.bean.UserInfoBean;
 import com.dyibing.myapp.bean.WXTicketBean;
@@ -22,8 +25,8 @@ import com.dyibing.myapp.mvp.presenter.LoginPresenter;
 import com.dyibing.myapp.mvp.presenter.WXAuthPresenter;
 import com.dyibing.myapp.mvp.view.LoginView;
 import com.dyibing.myapp.mvp.view.WXAuthView;
-import com.dyibing.myapp.net.HttpResult;
 import com.dyibing.myapp.utils.SingleToast;
+import com.dyibing.myapp.utils.Utils;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.diffdev.DiffDevOAuthFactory;
 import com.tencent.mm.opensdk.diffdev.IDiffDevOAuth;
@@ -33,16 +36,15 @@ import com.tencent.mm.opensdk.diffdev.OAuthListener;
 import java.util.HashMap;
 import java.util.Random;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 public class AuthActivity extends AppCompatActivity implements WXAuthView, LoginView {
     @BindView(R.id.img_wx)
-    ImageView img_wx;
+    ImageView imgWx;
 
     private IDiffDevOAuth oauth;
     private WXAuthPresenter wxAuthPresenter;
@@ -52,11 +54,24 @@ public class AuthActivity extends AppCompatActivity implements WXAuthView, Login
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        init();
+    }
+
+    private void init() {
         ButterKnife.bind(this);
         oauth = DiffDevOAuthFactory.getDiffDevOAuth();
         loginPresenter = new LoginPresenter(this, this);
         wxAuthPresenter = new WXAuthPresenter(this, this);
         wxAuthPresenter.getWXTokenBean();
+    }
+
+    @OnClick({R.id.tv_refresh})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_refresh:
+                wxAuthPresenter.getWXTokenBean();
+                break;
+        }
     }
 
     @Override
@@ -94,41 +109,41 @@ public class AuthActivity extends AppCompatActivity implements WXAuthView, Login
         return EncryptUtils.encryptSHA1ToString(str.toString());
     }
 
+    private OAuthListener oAuthListener = new OAuthListener() {
+        @Override
+        public void onAuthGotQrcode(String s, byte[] imgBuf) {
+            if (imgBuf != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(imgBuf, 0, imgBuf.length);
+                runOnUiThread(() -> imgWx.setImageBitmap(bitmap));
+            }
+        }
+
+        @Override
+        public void onQrcodeScanned() {
+            LogUtils.dTag("OAuthListener", "onQrcodeScanned");
+        }
+
+        @Override
+        public void onAuthFinish(OAuthErrCode oAuthErrCode, String authCode) {
+            LogUtils.dTag("OAuthListener", authCode);
+            if (oAuthErrCode.getCode() == 0) {
+                HashMap<String, Object> paramsMap = new HashMap<>();
+                paramsMap.put("code", authCode);
+                String strEntity = new Gson().toJson(paramsMap);
+                RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), strEntity);
+                loginPresenter.login(body);
+            }
+        }
+    };
+
     private void auth(String ticket) {
-        String noncestr = getNonceStr();
+        String nonceStr = getNonceStr();
         String timestamp = getTimestamp();
-        String signature = getSignature(noncestr, timestamp, ticket);
+        String signature = getSignature(nonceStr, timestamp, ticket);
 
         try {
-            oauth.auth(Constant.APP_ID, "snsapi_userinfo", noncestr, timestamp, signature, new OAuthListener() {
-                @Override
-                public void onAuthGotQrcode(String s, byte[] imgBuf) {
-                    if (imgBuf != null) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(imgBuf, 0, imgBuf.length);
-                        runOnUiThread(() -> img_wx.setImageBitmap(bitmap));
-                    }
-                }
-
-                @Override
-                public void onQrcodeScanned() {
-                    LogUtils.dTag("OAuthListener", "onQrcodeScanned");
-                }
-
-                @Override
-                public void onAuthFinish(OAuthErrCode oAuthErrCode, String authCode) {
-                    LogUtils.dTag("OAuthListener", "onAuthFinish");
-                    if (oAuthErrCode.getCode() == 0) {
-                        HashMap<String, Object> paramsMap = new HashMap<>();
-                        paramsMap.put("code", authCode);
-                        String strEntity = new Gson().toJson(paramsMap);
-                        RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), strEntity);
-                        loginPresenter.login(body);
-                    } else {
-                        //刷新二维码
-                        wxAuthPresenter.getWXTokenBean();
-                    }
-                }
-            });
+            oauth.removeListener(oAuthListener);
+            oauth.auth(Constant.APP_ID, "snsapi_userinfo", nonceStr, timestamp, signature, oAuthListener);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,8 +153,9 @@ public class AuthActivity extends AppCompatActivity implements WXAuthView, Login
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        oauth.stopAuth();
+        oauth.removeListener(oAuthListener);
         oauth = null;
+        oAuthListener = null;
         wxAuthPresenter.onDestory();
     }
 
@@ -147,9 +163,18 @@ public class AuthActivity extends AppCompatActivity implements WXAuthView, Login
     public void onLogin(LoginBean loginBean) {
         DataCenter.getInstance().setUserId(loginBean.getUserOpenId());
         DataCenter.getInstance().setToken(loginBean.getToken());
-        getSharedPreferences(Constant.PREFERENCES_DB, Context.MODE_PRIVATE).edit().putString("userid", loginBean.getUserOpenId()).apply();
-        getSharedPreferences(Constant.PREFERENCES_DB, Context.MODE_PRIVATE).edit().putString("token", loginBean.getToken()).apply();
-        loginPresenter.getUserInfo();
+        SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.TOKEN, loginBean.getToken());
+        SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.USER_OPEN_ID, loginBean.getUserOpenId());
+        if ("noStock".equals(loginBean.getUserStockType())) {
+            //新用户，第一次登录，不用判断是否完成任务 后台添加森林币业务
+            SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.RECEIVE_FOREST_CURRENCY, Utils.getTodayDate());
+            SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.FIRST_LOGIN, true);
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        } else {
+            //非新用户 获取用户信息
+            loginPresenter.getUserInfo();
+        }
     }
 
     @Override
@@ -166,29 +191,22 @@ public class AuthActivity extends AppCompatActivity implements WXAuthView, Login
             DataCenter.getInstance().getUser().setAvatarUrl(userInfoBean.getAvatarUrl());
             DataCenter.getInstance().getUser().setForestCoinCount(userInfoBean.getForestCoinCount());
             DataCenter.getInstance().getUser().setLikesCount(userInfoBean.getLikesCount());
-            DataCenter.getInstance().getUser().setLogin(true);
-            getSharedPreferences(Constant.PREFERENCES_DB, Context.MODE_PRIVATE).edit().putBoolean(Constant.FIRST_LOGIN, false).apply();
-            String status = getSharedPreferences(Constant.PREFERENCES_DB, Context.MODE_PRIVATE).getString(Constant.RECEIVE_FOREST_CURRENCY, "");
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.FIRST_LOGIN, false);
+            String status = SPUtils.getInstance(Constant.PREFERENCES_DB).getString(Constant.RECEIVE_FOREST_CURRENCY, "");
+            if (TextUtils.equals(status, Utils.getTodayDate())) {
+                //本地有领取记录 说明已经领取
+                startActivity(new Intent(this, MainActivity.class));
+            } else {
+                //显示森林币页面
+                startActivity(new Intent(this, ForestCoinActivity.class));
+            }
         } else {
-            getSharedPreferences(Constant.PREFERENCES_DB, Context.MODE_PRIVATE).edit().putBoolean(Constant.FIRST_LOGIN, true).apply();
+            //还没有用户信息
+            SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.FIRST_LOGIN, true);
             SingleToast.showMsg("还没有创建个人信息哟！");
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, MainActivity.class));
         }
-
-    }
-
-    @Override
-    public void onUserFinishTaskStatus(FinishStatusBean finishStatusBean) {
-
-    }
-
-    @Override
-    public void onReceiveForestCoin(HttpResult httpResult) {
-
+        finish();
     }
 
 }

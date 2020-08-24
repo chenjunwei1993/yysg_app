@@ -2,6 +2,8 @@ package com.dyibing.myapp.utils;
 
 import android.content.Context;
 
+import java.util.Date;
+
 public class Utils {
 //    当天的星期：monday：星期一，tuesday：星期二，wednesday：星期三，thursday：星期四，friday：星期五，saturday：星期六，sunday：星期日
     public static String getWeekString(String str){
@@ -35,5 +37,9 @@ public class Utils {
     public static int dp2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
+    }
+
+    public static String getTodayDate(){
+        return DateUtils.convertToString(DateUtils.DATE_FORMAT, new Date());
     }
 }
