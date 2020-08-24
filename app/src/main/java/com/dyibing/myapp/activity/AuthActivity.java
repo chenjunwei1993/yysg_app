@@ -8,14 +8,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.dyibing.myapp.R;
 import com.dyibing.myapp.bean.DataCenter;
+import com.dyibing.myapp.bean.ForestCoinBean;
 import com.dyibing.myapp.bean.LoginBean;
 import com.dyibing.myapp.bean.UserInfoBean;
 import com.dyibing.myapp.bean.WXTicketBean;
@@ -25,8 +23,6 @@ import com.dyibing.myapp.mvp.presenter.LoginPresenter;
 import com.dyibing.myapp.mvp.presenter.WXAuthPresenter;
 import com.dyibing.myapp.mvp.view.LoginView;
 import com.dyibing.myapp.mvp.view.WXAuthView;
-import com.dyibing.myapp.utils.SingleToast;
-import com.dyibing.myapp.utils.Utils;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.diffdev.DiffDevOAuthFactory;
 import com.tencent.mm.opensdk.diffdev.IDiffDevOAuth;
@@ -36,6 +32,8 @@ import com.tencent.mm.opensdk.diffdev.OAuthListener;
 import java.util.HashMap;
 import java.util.Random;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -165,48 +163,32 @@ public class AuthActivity extends AppCompatActivity implements WXAuthView, Login
         DataCenter.getInstance().setToken(loginBean.getToken());
         SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.TOKEN, loginBean.getToken());
         SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.USER_OPEN_ID, loginBean.getUserOpenId());
+        String receiveForestCoinStatus = loginBean.getReceiveForestCoinStatus();
         if ("noStock".equals(loginBean.getUserStockType())) {
             //新用户，第一次登录，不用判断是否完成任务 后台添加森林币业务
-            SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.RECEIVE_FOREST_CURRENCY, Utils.getTodayDate());
             SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.FIRST_LOGIN, true);
             startActivity(new Intent(this, MainActivity.class));
             finish();
         } else {
-            //非新用户 获取用户信息
-            loginPresenter.getUserInfo();
+            if(TextUtils.equals("noReceive",receiveForestCoinStatus)){
+                //显示森林币页面
+                startActivity(new Intent(this, ForestCoinActivity.class));
+            }else{
+                //本地有领取记录 说明已经领取
+                startActivity(new Intent(this, MainActivity.class));
+            }
+            finish();
         }
     }
 
     @Override
     public void onUserInfo(UserInfoBean userInfoBean) {
-        if (userInfoBean != null) {
-            DataCenter.getInstance().getUser().setNickname(userInfoBean.getNickName());
-            DataCenter.getInstance().getUser().setBirthday(userInfoBean.getBirthday());
-            DataCenter.getInstance().getUser().setUserSex(userInfoBean.getUserSex());
-            DataCenter.getInstance().getUser().setUserHobby(userInfoBean.getUserHobby());
-            DataCenter.getInstance().getUser().setLikeGift(userInfoBean.getLikeGift());
-            DataCenter.getInstance().getUser().setLikeCartoon(userInfoBean.getLikeCartoon());
-            DataCenter.getInstance().getUser().setLikeIdol(userInfoBean.getLikeIdol());
-            DataCenter.getInstance().getUser().setLikeGame(userInfoBean.getLikeGame());
-            DataCenter.getInstance().getUser().setAvatarUrl(userInfoBean.getAvatarUrl());
-            DataCenter.getInstance().getUser().setForestCoinCount(userInfoBean.getForestCoinCount());
-            DataCenter.getInstance().getUser().setLikesCount(userInfoBean.getLikesCount());
-            SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.FIRST_LOGIN, false);
-            String status = SPUtils.getInstance(Constant.PREFERENCES_DB).getString(Constant.RECEIVE_FOREST_CURRENCY, "");
-            if (TextUtils.equals(status, Utils.getTodayDate())) {
-                //本地有领取记录 说明已经领取
-                startActivity(new Intent(this, MainActivity.class));
-            } else {
-                //显示森林币页面
-                startActivity(new Intent(this, ForestCoinActivity.class));
-            }
-        } else {
-            //还没有用户信息
-            SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.FIRST_LOGIN, true);
-            SingleToast.showMsg("还没有创建个人信息哟！");
-            startActivity(new Intent(this, MainActivity.class));
-        }
-        finish();
+
+    }
+
+    @Override
+    public void onReceiveForestCoinStatus(ForestCoinBean forestCoinBean) {
+
     }
 
 }

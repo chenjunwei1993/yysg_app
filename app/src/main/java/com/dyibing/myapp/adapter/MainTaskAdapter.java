@@ -73,8 +73,7 @@ public class MainTaskAdapter extends RecyclerView.Adapter {
         }else if ("FINISH".equals(taskListBean.getTaskFinishStatus()) || "CONFIRM".equals(taskListBean.getTaskFinishStatus())){
             recyclerHolder.tvStatus.setBackground(mContext.getResources().getDrawable(R.mipmap.aixin2));
             recyclerHolder.tvStatus.setOnClickListener(null);
-        }
-        else if ("AWAITCONFIRM".equals(taskListBean.getTaskFinishStatus())){
+        } else if ("AWAITCONFIRM".equals(taskListBean.getTaskFinishStatus())){
             awaitConfirmCount +=1;
             recyclerHolder.tvStatus.setBackground(mContext.getResources().getDrawable(R.drawable.selector_task_button_bg));
             recyclerHolder.tvStatus.setSelected(true);

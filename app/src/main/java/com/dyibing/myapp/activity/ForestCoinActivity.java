@@ -6,24 +6,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.blankj.utilcode.util.SPUtils;
 import com.dyibing.myapp.R;
 import com.dyibing.myapp.bean.DataCenter;
 import com.dyibing.myapp.bean.FinishStatusBean;
-import com.dyibing.myapp.common.Constant;
 import com.dyibing.myapp.mvp.presenter.ForestCoinPresenter;
 import com.dyibing.myapp.mvp.view.ForestCoinView;
 import com.dyibing.myapp.net.HttpResult;
 import com.dyibing.myapp.utils.SingleToast;
-import com.dyibing.myapp.utils.Utils;
 import com.dyibing.myapp.utils.tts.AudioUtils;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -96,9 +92,14 @@ public class ForestCoinActivity extends AppCompatActivity implements ForestCoinV
             } else {
                 SingleToast.showMsg(httpResult.getMsg());
             }
-            SPUtils.getInstance(Constant.PREFERENCES_DB).put(Constant.RECEIVE_FOREST_CURRENCY, Utils.getTodayDate());
         }
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AudioUtils.getInstance().stopSpeaking();
     }
 }

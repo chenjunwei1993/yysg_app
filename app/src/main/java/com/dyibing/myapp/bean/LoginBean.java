@@ -11,6 +11,7 @@ public class LoginBean {
     private String userOpenId;
     private String token;
     private String userStockType;
+    private String receiveForestCoinStatus;
 
     public String getUserStockType() {
         return userStockType;
@@ -34,5 +35,13 @@ public class LoginBean {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getReceiveForestCoinStatus() {
+        return receiveForestCoinStatus;
+    }
+
+    public void setReceiveForestCoinStatus(String receiveForestCoinStatus) {
+        this.receiveForestCoinStatus = receiveForestCoinStatus;
     }
 }
