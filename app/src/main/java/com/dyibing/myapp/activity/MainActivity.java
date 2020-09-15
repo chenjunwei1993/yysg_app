@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements TasksView, UserIn
 //            Intent intent = new Intent(this, UserCenterActivity.class);
 //            startActivity(intent);
 //        } else
-        initInfo();
+
         tasksPresenter.getCurrentDateTask();
         userInfoPresenter.getUserInfo();
     }
@@ -244,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements TasksView, UserIn
         if (userInfoBean == null){
             return;
         }
+        DataCenter.getInstance().getUser().setUserId(userInfoBean.getUserId());
         DataCenter.getInstance().getUser().setNickname(userInfoBean.getNickName());
         DataCenter.getInstance().getUser().setBirthday(userInfoBean.getBirthday());
         DataCenter.getInstance().getUser().setUserSex(userInfoBean.getUserSex());
@@ -260,5 +261,6 @@ public class MainActivity extends AppCompatActivity implements TasksView, UserIn
             tvAixin.setText(DataCenter.getInstance().getUser().getForestCoinCount() + "+" + DataCenter.getInstance().getUser().getForestCoinCount_ls());
         else
             tvAixin.setText(DataCenter.getInstance().getUser().getForestCoinCount() + "");
+        initInfo();
     }
 }

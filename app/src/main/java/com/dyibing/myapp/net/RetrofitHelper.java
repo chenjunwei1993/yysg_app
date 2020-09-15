@@ -34,7 +34,7 @@ public class RetrofitHelper {
     private Retrofit mRetrofit;
 
     //开发环境
-    String releaseHost="http://127.0.0.1:8001/yysgplatform/";
+    String releaseHost="https://www.deeryaya.com/yysgApp/";
     //测试环境
     String debugHost="http://39.99.249.185/yysgApp/";
 
@@ -63,7 +63,7 @@ public class RetrofitHelper {
 
         if (mRetrofit == null) {
             mRetrofit = new Retrofit.Builder()
-                    .baseUrl(debugHost)
+                    .baseUrl(releaseHost)
                     .addConverterFactory(new NullOnEmptyConverterFactory())
                     .addConverterFactory(GsonConverterFactory.create(new Gson())) //添加Gson支持
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) //添加RxJava支持
