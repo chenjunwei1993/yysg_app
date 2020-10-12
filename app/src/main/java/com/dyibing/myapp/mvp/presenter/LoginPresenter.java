@@ -48,7 +48,7 @@ public class LoginPresenter extends BasePresenter {
      */
 
     public void receiveForestCoinStatus() {
-        Subscription subscription = mModel.receiveForestCoinStatus(new ProgressSubscriber(o -> ((LoginView) mView).onReceiveForestCoinStatus((ForestCoinBean) o), mContext));
+        Subscription subscription = mModel.receiveForestCoinStatus(new ProgressSubscriber(o -> ((LoginView) mView).onReceiveForestCoinStatus((HttpResult<ForestCoinBean>) o), mContext));
         subList.add(subscription);
     }
 

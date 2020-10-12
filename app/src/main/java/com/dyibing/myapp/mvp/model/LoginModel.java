@@ -32,10 +32,9 @@ public class LoginModel extends BaseModel {
     }
 
     public Subscription receiveForestCoinStatus(Subscriber subscriber) {
-        Observable<ForestCoinBean> observable = RetrofitHelper
+        Observable<HttpResult<ForestCoinBean>> observable = RetrofitHelper
                 .getService(ForestCoinService.class)
-                .receiveForestCoinStatus()
-                .map(new HttpResultFunc<>());;
+                .receiveForestCoinStatus();
         return toSubscribe(observable, subscriber);
     }
 }

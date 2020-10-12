@@ -238,14 +238,23 @@ public class SplashActivity extends AppCompatActivity implements LoginView, Fore
     }
 
     @Override
-    public void onReceiveForestCoinStatus(ForestCoinBean forestCoinBean) {
-        String receiveForestCoinStatus = forestCoinBean.getReceiveForestCoinStatus();
-        if (TextUtils.equals("noReceive", receiveForestCoinStatus)) {
-            forestCoinPresenter.getUserFinishTaskStatus();
-        } else {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+    public void onReceiveForestCoinStatus(HttpResult<ForestCoinBean> httpResult) {
+        if (httpResult != null) {
+            if ("0000".equals(httpResult.getCode())) {
+                ForestCoinBean forestCoinBean = httpResult.getData();
+                String receiveForestCoinStatus = forestCoinBean.getReceiveForestCoinStatus();
+                if (TextUtils.equals("noReceive", receiveForestCoinStatus)) {
+                    forestCoinPresenter.getUserFinishTaskStatus();
+                } else {
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                }
+            }else{
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
         }
+
     }
 
     @Override
