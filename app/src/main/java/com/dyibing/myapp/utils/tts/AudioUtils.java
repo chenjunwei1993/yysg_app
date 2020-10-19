@@ -29,7 +29,7 @@ public class AudioUtils {
     public void init(Context context) {
         if (mySynthesizer == null){
             mySynthesizer = SpeechSynthesizer.createSynthesizer(context, myInitListener);
-            mySynthesizer.setParameter(SpeechConstant.VOICE_NAME, "aisbabyxu");
+//            mySynthesizer.setParameter(SpeechConstant.VOICE_NAME, "aisbabyxu");
             mySynthesizer.setParameter(SpeechConstant.PITCH, "60");
             mySynthesizer.setParameter(SpeechConstant.VOLUME, "50"); }
         }

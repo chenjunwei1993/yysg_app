@@ -244,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements TasksView, UserIn
         if (userInfoBean == null){
             return;
         }
+        DataCenter.getInstance().getUser().setUserId(userInfoBean.getUserId());
         DataCenter.getInstance().getUser().setNickname(userInfoBean.getNickName());
         DataCenter.getInstance().getUser().setBirthday(userInfoBean.getBirthday());
         DataCenter.getInstance().getUser().setUserSex(userInfoBean.getUserSex());
