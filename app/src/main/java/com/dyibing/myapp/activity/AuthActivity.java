@@ -23,6 +23,7 @@ import com.dyibing.myapp.mvp.presenter.LoginPresenter;
 import com.dyibing.myapp.mvp.presenter.WXAuthPresenter;
 import com.dyibing.myapp.mvp.view.LoginView;
 import com.dyibing.myapp.mvp.view.WXAuthView;
+import com.dyibing.myapp.net.HttpResult;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.diffdev.DiffDevOAuthFactory;
 import com.tencent.mm.opensdk.diffdev.IDiffDevOAuth;
@@ -187,8 +188,9 @@ public class AuthActivity extends AppCompatActivity implements WXAuthView, Login
     }
 
     @Override
-    public void onReceiveForestCoinStatus(ForestCoinBean forestCoinBean) {
+    public void onReceiveForestCoinStatus(HttpResult<ForestCoinBean> httpResult) {
 
     }
+
 
 }

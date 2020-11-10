@@ -238,26 +238,35 @@ public class SplashActivity extends AppCompatActivity implements LoginView, Fore
     }
 
     @Override
-    public void onReceiveForestCoinStatus(ForestCoinBean forestCoinBean) {
-        String receiveForestCoinStatus = forestCoinBean.getReceiveForestCoinStatus();
-        if (TextUtils.equals("noReceive", receiveForestCoinStatus)) {
-            forestCoinPresenter.getUserFinishTaskStatus();
-        } else {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+    public void onReceiveForestCoinStatus(HttpResult<ForestCoinBean> httpResult) {
+        if (httpResult != null) {
+            if ("0000".equals(httpResult.getCode())) {
+                ForestCoinBean forestCoinBean = httpResult.getData();
+                String receiveForestCoinStatus = forestCoinBean.getReceiveForestCoinStatus();
+                if (TextUtils.equals("noReceive", receiveForestCoinStatus)) {
+                    forestCoinPresenter.getUserFinishTaskStatus();
+                } else {
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                }
+            }else{
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
         }
+
     }
 
     @Override
     public void onUserFinishTaskStatus(FinishStatusBean finishStatusBean) {
         if (finishStatusBean != null) {
             finishStatus = finishStatusBean.getFinishTaskStatus();
+            mViewPager.setVisibility(View.GONE);
+            llPoint.setVisibility(View.GONE);
+            ivFinishStatus.setVisibility(View.VISIBLE);
+            btnGetslb.setVisibility(View.VISIBLE);
             if ("finished".equals(finishStatusBean.getFinishTaskStatus())) {
                 ivFinishStatus.setImageDrawable(getResources().getDrawable(R.mipmap.five));
-                mViewPager.setVisibility(View.GONE);
-                llPoint.setVisibility(View.GONE);
-                ivFinishStatus.setVisibility(View.VISIBLE);
-                btnGetslb.setVisibility(View.VISIBLE);
                 btnGetslb.setText("领3个森林币");
                 String bobao = "亲爱的朋友，谢谢你的帮助，你昨天完成了任务并获得森林币，真的太棒了，每天登录养成，完成任务，养成良好的习惯哦。";
                 AudioUtils.getInstance().speakText(bobao); //播放语音

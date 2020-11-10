@@ -62,6 +62,10 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             recyclerHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color3));
             recyclerHolder.tvStatus.setText("已兑现");
             recyclerHolder.tvComplete.setVisibility(View.GONE);
+        }else if ("AWAITCONFIRM".equals(waitingCashTaskBean.getTaskStatus())){
+            recyclerHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color3));
+            recyclerHolder.tvStatus.setText("待确认");
+            recyclerHolder.tvComplete.setVisibility(View.GONE);
         }else if ("AWAITCASH".equals(waitingCashTaskBean.getTaskStatus())){
             recyclerHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color4));
             recyclerHolder.tvStatus.setText("等待兑现");
